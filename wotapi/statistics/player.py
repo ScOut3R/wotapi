@@ -4,14 +4,22 @@ from bs4 import BeautifulSoup
 
 class Player(object):
     
-    def __init__(self, account_id, name):
+    def __init__(self, account_id, name, region):
         self.account_id = account_id
         self.name = name
+        if region == 'eu':
+            self.region = '.eu'
+        elif region == 'us':
+            self.region = '.com'
+        elif region == 'ru':
+            self.region = '.ru'
+        elif region == 'asia':
+            self.region = '-sea.com'
         self.lookup_strings_basic = [ ' Defeats: ', ' Battles Survived: ', ' Hit Ratio: ', ' Maximum Experience per Battle: ' ]
         self.lookup_strings_rating = [ 'Global Rating', 'Victories/Battles', 'Average Experience per Battle', 'Victories', 'Battles Participated', 'Capture Points', 'Damage Caused', 'Defense Points', 'Targets Destroyed', 'Targets Detected', 'Total Experience' ]
 
     def stats(self):
-        request = urllib2.urlopen('http://worldoftanks.eu/community/accounts/%s-%s/' % ( self.account_id, self.name))
+        request = urllib2.urlopen('http://worldoftanks%s/community/accounts/%s-%s/' % ( self.region, self.account_id, self.name))
         f = request.read()
         request.close()
         soup = BeautifulSoup(f)
