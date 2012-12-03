@@ -33,4 +33,10 @@ class Player(object):
             temp = soup.find("td", text=lookup_string)
             stats.append([ lookup_string, temp.find_next_sibling().string, temp.find_next_sibling().find_next_sibling().string ] )
     
-        return stats
+    def single_stat(self, stat_name):
+        request = urllib2.urlopen('http://worldoftanks%s/community/accounts/%s-%s/' % ( self.region, self.account_id, self.name))
+        f = request.read()
+        request.close()
+        soup = BeautifulSoup(f)
+        temp = soup.find("td", text=stat_name)
+        return temp.find_next_sibling().string

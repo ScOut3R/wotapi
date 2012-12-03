@@ -1,5 +1,6 @@
 import urllib2
 import simplejson
+from wotapi.statistics import player
 
 
 class Clan(object):
@@ -22,3 +23,10 @@ class Clan(object):
         f = opener.open(request)
         clan_data = simplejson.load(f)
         return clan_data['request_data']['items']
+    
+    def stat(self):
+        members = self.memberlist()
+        battles = 0
+        for member in members:
+            battles = battles + int(player.Player(account_id=member['account_id'], name=member['name'], region='eu').single_stat('Battles Participated').replace(u'\xa0', u''))
+        return { 'members': len(members), 'battles': battles }
