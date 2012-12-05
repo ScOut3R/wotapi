@@ -6,7 +6,7 @@ from wotapi.cache import cache
 
 class Clan(object):
     
-    def __init__(self, clan_id, region, use_cache=False, cache_host="127.0.0.1", cache_port='11211'):
+    def __init__(self, clan_id, region, use_cache=False, cache_host="127.0.0.1", cache_port='11211', cache_expiry='1800'):
         self.clan_id = clan_id
         self.use_cache = use_cache
         if region == 'eu':
@@ -19,7 +19,7 @@ class Clan(object):
             self.region = '-sea.com'
         
         if self.use_cache == True:
-            self.cache = cache.Memcache(cache_host, cache_port)
+            self.cache = cache.Memcache(cache_host, cache_port, cache_expiry)
         
     def memberlist(self):
         if self.use_cache:
